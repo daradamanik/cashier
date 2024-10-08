@@ -11,7 +11,6 @@ export const checkRole = (allowedRoles: string[]) => {
     }
     try {
       const decoded = jwt.verify(token, SECRET_KEY) as { role: string };
-      console.log('Decoded Role:', decoded.role); 
       if (!allowedRoles.includes(decoded.role)) {
         return res.status(403).json({ message: 'Access denied. Insufficient permissions.' });
       }
