@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum role {
+  admin
+  kasir
+}
+
+enum jenis {
+  makanan
+  minuman
+}
+
+enum status {
+  paid
+  unpaid
+}
+
+model user {
+  id_user     Int @id @default(autoincrement())
+  name        String
+  email       String @unique
+  password    String
+  role        role
+  transaction transaction[]
+}
+
+model menu {
+  id_menu             Int @id @default(autoincrement())
+  menu_name           String
+  type                jenis
+  picture             String
+  description         String
+  price               Float
+  transactionDetail   transactionDetail[]   
+}
+
+model transaction {
+  id_transaction      Int @id @default(autoincrement())
+  transactionDate     DateTime
+  userID              Int
+  id_user             user @relation(fields: [userID], references: [id_user])
+  customer            String
+  status              status
+  createdAt           DateTime @default(now())   
+  transactionDetail   transactionDetail[]       
+}
+
+model transactionDetail {
+  id_detail       Int @id @default(autoincrement())
+  transactionID   Int
+  id_transaction  transaction @relation(fields: [transactionID], references: [id_transaction])
+  menuID          Int
+  id_menu         menu @relation(fields: [menuID], references: [id_menu])
+  totalItem       Int
+  totalPrice      Float
+}
