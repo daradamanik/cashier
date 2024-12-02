@@ -1,0 +1,23 @@
+name: CI/CD for cashier app
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  build-and-test:
+    rus-on: ubuntu-latest
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v3
+
+    -name: setup node js
+     uses: actions/setup-node@v3
+     with:
+        node-version: '18.17.0'
+
+    -name: install dependencies
+     run: npm install
