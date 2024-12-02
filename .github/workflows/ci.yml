@@ -29,9 +29,3 @@ jobs:
         key: ${{ runner.os }}-node-${{ hashfiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
-
-    - name: Deploy to Railway
-      uses: railwayapp/railway-github-action@v1
-      with:
-        railway_token: ${{ secrets.RAILWAY_API_TOKEN }}
-        service_name: stellar-peace
